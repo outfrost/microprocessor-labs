@@ -1,0 +1,69 @@
+A51 MACRO ASSEMBLER  LAB03_LED                                                            03/24/2017 15:04:09 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB03_LED.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB03_LED.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+0100                   2                     ORG 0x0100
+                       3                     
+0100 7A20              4     START:  MOV R2, #0x20
+                       5     
+0102 7499              6     CYCLE:  MOV A, #0x99
+0104 F590              7                     MOV P1, A
+                       8                     
+0106 7800              9                     MOV R0, #0x00
+0108 7900             10                     MOV R1, #0x00
+010A D9FE             11     DELAY0: DJNZ R1, DELAY0
+010C D8FC             12                     DJNZ R0, DELAY0
+                      13     
+010E 7466             14                     MOV A, #0x66
+0110 F590             15                     MOV P1, A
+                      16     
+0112 D9FE             17     DELAY1: DJNZ R1, DELAY1
+0114 D8FC             18                     DJNZ R0, DELAY1
+                      19     
+0116 DAEA             20                     DJNZ R2, CYCLE
+                      21     
+0118 7B07             22                     MOV R3, #0x7
+011A 74FE             23                     MOV A, #0xFE
+011C F590             24     SCROLL: MOV P1, A
+                      25     
+011E D9FE             26     DELAY2: DJNZ R1, DELAY2
+0120 D8FC             27                     DJNZ R0, DELAY2
+                      28     
+0122 23               29                     RL A
+0123 DBF7             30                     DJNZ R3, SCROLL
+                      31     
+0125 74FF             32                     MOV A, #0xFF
+0127 F590             33                     MOV P1, A
+                      34     
+0129 00               35                     NOP
+012A 00               36                     NOP
+012B 00               37                     NOP
+012C 80FE             38                     JMP $
+                      39     END START
+A51 MACRO ASSEMBLER  LAB03_LED                                                            03/24/2017 15:04:09 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CYCLE. . . . . . .  C ADDR   0102H   A   
+DELAY0 . . . . . .  C ADDR   010AH   A   
+DELAY1 . . . . . .  C ADDR   0112H   A   
+DELAY2 . . . . . .  C ADDR   011EH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SCROLL . . . . . .  C ADDR   011CH   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

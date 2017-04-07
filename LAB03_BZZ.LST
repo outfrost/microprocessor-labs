@@ -1,0 +1,84 @@
+A51 MACRO ASSEMBLER  LAB03_BZZ                                                            03/24/2017 15:46:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB03_BZZ.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB03_BZZ.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+0100                   2                     ORG 0x0100
+                       3                     
+0100 7C02              4     START:  MOV R4, #0x02
+0102 7A10              5     GO:             MOV R2, #0x10
+                       6     
+0104 B2B2              7     CYCLE:  CPL P3.2
+                       8                     
+0106 EC                9                     MOV A, R4
+0107 F8               10                     MOV R0, A
+0108 7980             11                     MOV R1, #0x80
+010A D9FE             12     DELAY0: DJNZ R1, DELAY0
+010C D8FC             13                     DJNZ R0, DELAY0
+                      14     
+010E B2B2             15                     CPL P3.2
+                      16                     
+0110 EC               17                     MOV A, R4
+0111 F8               18                     MOV R0, A
+0112 7980             19                     MOV R1, #0x80
+0114 D9FE             20     DELAY1: DJNZ R1, DELAY1
+0116 D8FC             21                     DJNZ R0, DELAY1
+                      22     
+0118 DAEA             23                     DJNZ R2, CYCLE
+011A EC               24                     MOV A, R4
+011B F4               25                     CPL A
+011C 64FA             26                     XRL A, #0xFA
+011E FC               27                     MOV R4, A
+011F 80E1             28                     JMP GO
+                      29     
+                      30     
+                      31     
+                      32     
+                      33     ; SKIPPED CODE
+                      34     
+0121 7B08             35                     MOV R3, #0x8
+0123 74FE             36                     MOV A, #0xFE
+0125 F590             37     SCROLL: MOV P1, A
+                      38     
+0127 D9FE             39     DELAY2: DJNZ R1, DELAY2
+0129 D8FC             40                     DJNZ R0, DELAY2
+                      41     
+012B 23               42                     RL A
+012C DBF7             43                     DJNZ R3, SCROLL
+                      44     
+012E 74FF             45                     MOV A, #0xFF
+0130 F590             46                     MOV P1, A
+                      47     
+0132 00               48                     NOP
+0133 00               49                     NOP
+0134 00               50                     NOP
+0135 80FE             51                     JMP $
+                      52     END START
+A51 MACRO ASSEMBLER  LAB03_BZZ                                                            03/24/2017 15:46:57 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CYCLE. . . . . . .  C ADDR   0104H   A   
+DELAY0 . . . . . .  C ADDR   010AH   A   
+DELAY1 . . . . . .  C ADDR   0114H   A   
+DELAY2 . . . . . .  C ADDR   0127H   A   
+GO . . . . . . . .  C ADDR   0102H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+SCROLL . . . . . .  C ADDR   0125H   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

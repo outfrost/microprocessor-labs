@@ -1,0 +1,36 @@
+A51 MACRO ASSEMBLER  LAB02_RAM                                                            03/10/2017 15:37:06 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB02_RAM.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB02_RAM.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1     LJMP START
+0100                   2     ORG 0x0100
+                       3     
+0100 908080            4     START:  MOV DPTR, #0x8080
+0103 E0                5                     MOVX A, @DPTR
+0104 F4                6                     CPL A
+0105 F0                7                     MOVX @DPTR, A
+0106 04                8                     INC A
+0107 E0                9                     MOVX A, @DPTR
+                      10     
+0108 80FE             11                     JMP $
+                      12     END START
+A51 MACRO ASSEMBLER  LAB02_RAM                                                            03/10/2017 15:37:06 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

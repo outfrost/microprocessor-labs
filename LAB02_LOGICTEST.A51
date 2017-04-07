@@ -1,0 +1,13 @@
+LJMP START
+ORG 0x0100
+
+START:	MOV A, #0x77
+		MOV B, #0xAF
+		ANL A, B
+		MOV B, #0x11
+		ORL A, B
+		CPL A
+		XRL A, B
+
+		JMP $
+END START

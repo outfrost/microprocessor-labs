@@ -1,0 +1,60 @@
+A51 MACRO ASSEMBLER  LAB03_P6                                                             03/24/2017 16:00:03 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB03_P6.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB03_P6.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+  00FA                 2                     P6 EQU 0x00FA
+0100                   3                     ORG 0x0100
+                       4                     
+0100 E5FA              5     START:  MOV A, P6
+0102 4411              6                     ORL A, #00010001B
+0104 F5FA              7                     MOV P6, A
+                       8     
+0106 7800              9                     MOV R0, #0x00
+0108 7900             10                     MOV R1, #0x00
+010A D9FE             11     DELAY0: DJNZ R1, DELAY0
+010C D8FC             12                     DJNZ R0, DELAY0
+                      13     
+010E 6411             14                     XRL A, #00010001B
+0110 F5FA             15                     MOV P6, A
+                      16     
+0112 D9FE             17     DELAY1: DJNZ R1, DELAY1
+0114 D8FC             18                     DJNZ R0, DELAY1
+                      19     
+0116 6440             20                     XRL A, #01000000B
+0118 F5FA             21                     MOV P6, A
+                      22     
+011A D9FE             23     DELAY2: DJNZ R1, DELAY2
+011C D8FC             24                     DJNZ R0, DELAY2
+                      25     
+011E 80E0             26                     JMP START
+                      27     
+0120 00               28                     NOP
+0121 00               29                     NOP
+0122 00               30                     NOP
+0123 80FE             31                     JMP $
+                      32     END START
+A51 MACRO ASSEMBLER  LAB03_P6                                                             03/24/2017 16:00:03 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY0 . . . . . .  C ADDR   010AH   A   
+DELAY1 . . . . . .  C ADDR   0112H   A   
+DELAY2 . . . . . .  C ADDR   011AH   A   
+P6 . . . . . . . .  N NUMB   00FAH   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
