@@ -1,0 +1,153 @@
+A51 MACRO ASSEMBLER  LAB04_LCD                                                            04/07/2017 15:56:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB04_LCD.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB04_LCD.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+                       2     
+  FF2E                 3                     LCDstatus       EQU     0xFF2E
+  FF2C                 4                     LCDcontrol      EQU     0xFF2C
+  FF2D                 5                     LCDdataWR       EQU     0xFF2D
+  FF2F                 6                     LCDdataRD       EQU 0xFF2F
+                       7     
+                       8                     
+                       9                     
+                      10                     
+                      11                     
+                      12                     
+                      13     
+0100                  14                     ORG 0x0100
+                      15     
+                      16     LCDcntrlWR      MACRO x
+                      17                     LOCAL loop
+                      18     loop:
+                      19                     MOV DPTR, #LCDstatus
+                      20                     MOVX A,@DPTR
+                      21                     JB ACC.7, loop                  ; check if LCD busy
+                      22     
+                      23                     MOV DPTR,#LCDcontrol    ; write to LCD control
+                      24                     MOV A, x
+                      25                     MOVX @DPTR,A
+                      26                     ENDM
+                      27     
+                      28     LCDcharWR       MACRO
+                      29                     LOCAL loop1, loop2
+                      30     
+                      31                     PUSH ACC
+                      32     loop1:  MOV DPTR, #LCDstatus
+                      33                     MOVX A, @DPTR
+                      34                     JB ACC.7, loop1                 ; check if LCD busy
+                      35     
+                      36     loop2:  MOV DPTR, #LCDdataWR    ; write data to LCD
+                      37                     POP ACC
+                      38                     MOVX @DPTR,A
+                      39                     ENDM
+                      40     
+                      41     init_LCD        MACRO
+                      42                     LCDcntrlWR #0x38
+                      43                     LCDcntrlWR #0x01
+                      44                     LCDcntrlWR #0x0E
+                      45                     ENDM
+                      46     
+                      47     charStor        MACRO x
+                      48                     MOV A, x
+                      49                     MOVX @DPTR, A
+                      50                     INC DPTR
+                      51                     INC R1
+                      52                     ENDM
+                      53     
+                      54     charSeqWr       MACRO
+                      55                     LOCAL loop
+                      56     loop:   MOVX A, @DPTR
+                      57                     LCDcharWR
+                      58                     INC DPTR
+A51 MACRO ASSEMBLER  LAB04_LCD                                                            04/07/2017 15:56:27 PAGE     2
+
+                      59                     DJNZ R1, loop
+                      60                     ENDM
+                      61                     
+0100                  62     START:  init_LCD
+                      63+1                   LCDcntrlWR #0x38
+                      72+1                   LCDcntrlWR #0x01
+                      81+1                   LCDcntrlWR #0x0E
+                      90                     
+                      91                     LCDcntrlWR #0x80
+0134 7900            100                     MOV R1, #0x00
+0136 908080          101                     MOV DPTR, #0x8080
+                     102                     charStor #'$'
+                     107                     charStor #' '
+                     112                     charStor #'l'
+                     117                     charStor #'s'
+                     122     
+014D 908080          123                     MOV DPTR, #0x8080
+                     124                     charSeqWr
+                     126+1                   LCDcharWR
+                     138     
+                     139                     LCDcntrlWR #0xC0
+0170 7900            148                     MOV R1, #0x00
+0172 908080          149                     MOV DPTR, #0x8080
+                     150                     charStor #'$'
+                     155                     charStor #' '
+                     160                     charStor #'s'
+                     165                     charStor #'u'
+                     170                     charStor #'d'
+                     175                     charStor #'o'
+                     180                     charStor #' '
+                     185                     charStor #'r'
+                     190                     charStor #'m'
+                     195                     charStor #' '
+                     200                     charStor #'-'
+                     205                     charStor #'r'
+                     210                     charStor #'f'
+                     215                     charStor #' '
+                     220                     charStor #'/'
+                     225                     
+01C0 908080          226                     MOV DPTR, #0x8080
+                     227                     charSeqWr
+                     229+1                   LCDcharWR
+                     241                     
+                     242                     ;LCDcntrlWR #HOME2
+                     243                     ;MOV DPTR, #0x8100
+                     244                     ;charStor #'*'
+                     245                     ;charStor #' ' 
+                     246     
+01D6 00              247                     NOP
+01D7 00              248                     NOP
+01D8 00              249                     NOP
+01D9 80FE            250                     JMP $
+                     251     END START
+A51 MACRO ASSEMBLER  LAB04_LCD                                                            04/07/2017 15:56:27 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+??0000 . . . . . .  C ADDR   0100H   A   
+??0001 . . . . . .  C ADDR   010DH   A   
+??0002 . . . . . .  C ADDR   011AH   A   
+??0003 . . . . . .  C ADDR   0127H   A   
+??0004 . . . . . .  C ADDR   0150H   A   
+??0005 . . . . . .  C ADDR   0153H   A   
+??0006 . . . . . .  C ADDR   015AH   A   
+??0007 . . . . . .  C ADDR   0163H   A   
+??0008 . . . . . .  C ADDR   01C3H   A   
+??0009 . . . . . .  C ADDR   01C6H   A   
+??000A . . . . . .  C ADDR   01CDH   A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+LCDCONTROL . . . .  N NUMB   FF2CH   A   
+LCDDATARD. . . . .  N NUMB   FF2FH   A   
+LCDDATAWR. . . . .  N NUMB   FF2DH   A   
+LCDSTATUS. . . . .  N NUMB   FF2EH   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
