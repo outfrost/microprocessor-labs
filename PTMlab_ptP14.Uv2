@@ -5,8 +5,7 @@ Target (Target 1), 0x0000 // Tools: 'MCS-51'
 
 Group (Source Group 1)
 
-File 1,2,<.\LAB05_LCDM.A51><LAB05_LCDM.A51> 0x0 
-File 1,2,<.\LAB05_KBTYPE.A51><LAB05_KBTYPE.A51> 0x0 
+File 1,2,<.\LAB06_RTC.A51><LAB06_RTC.A51> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'

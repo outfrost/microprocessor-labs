@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     1
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         06/02/2017 14:53:51 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.00d
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                 +1    56                     DJNZ R1, loop
                 +1    57                     ENDM
                       58     
-A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     2
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         06/02/2017 14:53:51 PAGE     2
 
                       59     
 0000 020100           60                     LJMP START
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
                      149             kcStor #0xD7, #0x37
                      153             kcStor #0xDB, #0x38
                      157             kcStor #0xDD, #0x39
-A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     3
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         06/02/2017 14:53:51 PAGE     3
 
                      161             kcStor #0xDE, #0x43
                      165             kcStor #0xE7, #0x45
@@ -184,7 +184,7 @@ LOC  OBJ            LINE     SOURCE
 0291 00              422                     NOP
 0292 80FE            423                     JMP $
                      424     END START
-A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     4
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         06/02/2017 14:53:51 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------

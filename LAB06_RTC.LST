@@ -1,0 +1,124 @@
+A51 MACRO ASSEMBLER  LAB06_RTC                                                            06/02/2017 15:59:44 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB06_RTC.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB06_RTC.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1                     
+                       2     
+0000 020100            3                     LJMP START
+                       4                     
+000B                   5                     ORG 0x000B              ; T0 int
+000B 758C7D            6                     MOV TH0, #0x7D
+000E 758A00            7                     MOV TL0, #0x00
+0011 18                8                     DEC R0
+0012 32                9                     RETI
+                      10                     
+  00F8                11                     P5  EQU 0xF8    ; KB
+  00DB                12                     P7  EQU 0xDB
+                      13     
+0100                  14                     ORG 0x0100
+                      15                     
+                      16     readKey MACRO
+                      17                     LOCAL save, next, key2
+                      18                     PUSH ACC
+                      19                     
+                      20                     MOV A, #0xEF
+                      21                     MOV P5, A
+                      22                     MOV A, P7
+                      23                     ANL A, #0xEF
+                      24                     
+                      25                     MOV R2, A
+                      26                     CLR C
+                      27                     SUBB A, #0xEF
+                      28                     JNZ save
+                      29                     
+                      30                     MOV A, R4
+                      31                     XRL A, #0xEF
+                      32                     JNZ next
+                      33                     
+                      34                     MOV A, R3
+                      35                     CLR C
+                      36                     SUBB A, #0xE7
+                      37                     JNZ key2
+                      38                     
+                      39                     SETB TR0
+                      40                     POP ACC
+                      41                     MOV A, #0x00
+                      42                     PUSH ACC
+                      43                     JMP next
+                      44     key2:
+                      45                     MOV A, R3
+                      46                     CLR C
+                      47                     SUBB A, #0xED
+                      48                     JNZ next
+                      49                     
+                      50                     CLR TR0
+                      51                     JMP next
+                      52     save:
+                      53                     MOV A, R2
+                      54                     MOV R3, A
+                      55                     MOV R4, #0xEF
+                      56     next:
+                      57                     POP ACC
+                      58                     ENDM
+A51 MACRO ASSEMBLER  LAB06_RTC                                                            06/02/2017 15:59:44 PAGE     2
+
+                      59     
+0100                  60     START:
+0100 758901           61                     MOV TMOD, #0x01
+0103 758C00           62                     MOV TH0, #0x00
+0106 758A00           63                     MOV TL0, #0x00
+0109 D28C             64                     SETB TR0
+010B 75A882           65                     MOV IE, #0x82
+010E 7400             66                     MOV A, #0x00
+0110 F590             67                     MOV P1, A
+                      68                     
+0112                  69     next:
+0112 7810             70                     MOV R0, #0x10
+0114                  71     wait:
+0114 E8               72                     MOV A, R0
+                      73                     readKey
+014A 70C8            114                     JNZ wait
+014C E590            115                     MOV A, P1
+014E F4              116                     CPL A
+014F F590            117                     MOV P1, A
+0151 80BF            118                     JMP next
+                     119                     
+0153 00              120                     NOP
+0154 00              121                     NOP
+0155 00              122                     NOP
+0156 80FE            123                     JMP $
+                     124     END START
+A51 MACRO ASSEMBLER  LAB06_RTC                                                            06/02/2017 15:59:44 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+??0000 . . . . . .  C ADDR   0144H   A   
+??0001 . . . . . .  C ADDR   0148H   A   
+??0002 . . . . . .  C ADDR   013AH   A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+NEXT . . . . . . .  C ADDR   0112H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P5 . . . . . . . .  N NUMB   00F8H   A   
+P7 . . . . . . . .  N NUMB   00DBH   A   
+START. . . . . . .  C ADDR   0100H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WAIT . . . . . . .  C ADDR   0114H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
