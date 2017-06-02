@@ -1,0 +1,126 @@
+A51 MACRO ASSEMBLER  LAB05_KBRECODE                                                       05/19/2017 15:23:03 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB05_KBRECODE.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB05_KBRECODE.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+                       2     
+  00F8                 3                     P5  EQU 0xF8
+  00DB                 4             P7  EQU 0xDB
+                       5     
+0100                   6                     ORG 0x0100
+                       7     
+                       8     kcStor MACRO x, y
+                       9             MOV DPL, x
+                      10             MOV A, y
+                      11             MOVX @DPTR, A
+                      12             ENDM
+                      13     
+                      14     RDrow MACRO
+                      15             LOCAL save, next
+                      16     
+                      17             MOV A, R0
+                      18             MOV P5, A
+                      19             
+                      20             MOV A, P7
+                      21             ANL A, R0
+                      22             
+                      23             MOV R2, A
+                      24             CLR C
+                      25             SUBB A, R0
+                      26             JNZ save
+                      27                     MOV A, R4
+                      28                     XRL A, R0
+                      29                     JNZ next
+                      30                     
+                      31             MOV A, R3
+                      32             MOV DPL, A
+                      33             MOVX A, @DPTR
+                      34             CPL A
+                      35             MOV P1, A
+                      36                     JMP next
+                      37     save:   
+                      38                     MOV A, R2
+                      39                     MOV R3, A
+                      40                     MOV A, R0
+                      41                     MOV R4, A
+                      42     next:   
+                      43             ENDM
+                      44     
+0100 758380           45     START:  MOV DPH, #0x80
+                      46     
+0103 7800             47             MOV R0, #0x00
+0105 E8               48     reset:  MOV A, R0
+                      49             kcStor A, #0x00
+010B D8F8             53             DJNZ R0, reset
+                      54             
+                      55             kcStor #0x77, #0x01
+                      59             kcStor #0x7B, #0x02
+                      63             kcStor #0x7D, #0x03
+                      67             kcStor #0x7E, #0x0A
+                      71             kcStor #0xB7, #0x04
+                      75             kcStor #0xBB, #0x05
+                      79             kcStor #0xBD, #0x06
+A51 MACRO ASSEMBLER  LAB05_KBRECODE                                                       05/19/2017 15:23:03 PAGE     2
+
+                      83             kcStor #0xBE, #0x0B
+                      87             kcStor #0xD7, #0x07
+                      91             kcStor #0xDB, #0x08
+                      95             kcStor #0xDD, #0x09
+                      99             kcStor #0xDE, #0x0C
+                     103             kcStor #0xE7, #0x0E
+                     107             kcStor #0xEB, #0x00
+                     111             kcStor #0xED, #0x0F
+                     115             kcStor #0xEE, #0x0D
+                     119             
+016D 787F            120     scan:   MOV R0, #0x7F   ; Row 1
+                     121             RDrow
+018B 78BF            149             MOV R0, #0xBF   ; Row 2
+                     150             RDrow
+01A9 78DF            178             MOV R0, #0xDF   ; Row 3
+                     179             RDrow
+01C7 78EF            207             MOV R0, #0xEF   ; Row 4
+                     208             RDrow
+                     236     
+01E5 8086            237             JMP scan
+                     238             
+                     239     
+01E7 00              240                     NOP
+01E8 00              241                     NOP
+01E9 00              242                     NOP
+01EA 80FE            243                     JMP $
+                     244     END START
+A51 MACRO ASSEMBLER  LAB05_KBRECODE                                                       05/19/2017 15:23:03 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+??0000 . . . . . .  C ADDR   0187H   A   
+??0001 . . . . . .  C ADDR   018BH   A   
+??0002 . . . . . .  C ADDR   01A5H   A   
+??0003 . . . . . .  C ADDR   01A9H   A   
+??0004 . . . . . .  C ADDR   01C3H   A   
+??0005 . . . . . .  C ADDR   01C7H   A   
+??0006 . . . . . .  C ADDR   01E1H   A   
+??0007 . . . . . .  C ADDR   01E5H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P5 . . . . . . . .  N NUMB   00F8H   A   
+P7 . . . . . . . .  N NUMB   00DBH   A   
+RESET. . . . . . .  C ADDR   0105H   A   
+SCAN . . . . . . .  C ADDR   016DH   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

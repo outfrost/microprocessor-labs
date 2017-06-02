@@ -1,0 +1,237 @@
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB05_KBTYPE.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB05_KBTYPE.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1                     ;#include "LAB05_LCDM.A51"
+  FF2E          +1     2                     LCDstatus       EQU     0xFF2E
+  FF2C          +1     3                     LCDcontrol      EQU     0xFF2C
+  FF2D          +1     4                     LCDdataWR       EQU     0xFF2D
+  FF2F          +1     5                     LCDdataRD       EQU 0xFF2F
+                +1     6                     
+                +1     7                     
+                +1     8                     
+                +1     9                     
+                +1    10                     
+                +1    11                     
+                +1    12                     
+                +1    13     LCDcntrlWR      MACRO x
+                +1    14                     LOCAL loop
+                +1    15     loop:
+                +1    16                     MOV DPTR, #LCDstatus
+                +1    17                     MOVX A,@DPTR
+                +1    18                     JB ACC.7, loop                  ; check if LCD busy
+                +1    19     
+                +1    20                     MOV DPTR,#LCDcontrol    ; write to LCD control
+                +1    21                     MOV A, x
+                +1    22                     MOVX @DPTR,A
+                +1    23                     ENDM
+                +1    24     
+                +1    25     LCDcharWR       MACRO
+                +1    26                     LOCAL loop1, loop2
+                +1    27     
+                +1    28                     PUSH ACC
+                +1    29     loop1:  MOV DPTR, #LCDstatus
+                +1    30                     MOVX A, @DPTR
+                +1    31                     JB ACC.7, loop1                 ; check if LCD busy
+                +1    32     
+                +1    33     loop2:  MOV DPTR, #LCDdataWR    ; write data to LCD
+                +1    34                     POP ACC
+                +1    35                     MOVX @DPTR,A
+                +1    36                     ENDM
+                +1    37     
+                +1    38     init_LCD        MACRO
+                +1    39                     LCDcntrlWR #0x38
+                +1    40                     LCDcntrlWR #0x01
+                +1    41                     LCDcntrlWR #0x0E
+                +1    42                     ENDM
+                +1    43     
+                +1    44     charStor        MACRO x
+                +1    45                     MOV A, x
+                +1    46                     MOVX @DPTR, A
+                +1    47                     INC DPTR
+                +1    48                     INC R1
+                +1    49                     ENDM
+                +1    50     
+                +1    51     charSeqWr       MACRO
+                +1    52                     LOCAL loop
+                +1    53     loop:   MOVX A, @DPTR
+                +1    54                     LCDcharWR
+                +1    55                     INC DPTR
+                +1    56                     DJNZ R1, loop
+                +1    57                     ENDM
+                      58     
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     2
+
+                      59     
+0000 020100           60                     LJMP START
+                      61     
+  00F8                62                     P5  EQU 0xF8
+  00DB                63             P7  EQU 0xDB
+                      64     
+0100                  65                     ORG 0x0100
+                      66     
+                      67     kcStor MACRO x, y
+                      68             MOV DPL, x
+                      69             MOV A, y
+                      70             MOVX @DPTR, A
+                      71             ENDM
+                      72     
+                      73     RDrow MACRO
+                      74             LOCAL save, next
+                      75     
+                      76             MOV A, R0
+                      77             MOV P5, A
+                      78             
+                      79             MOV A, P7
+                      80             ANL A, R0
+                      81             
+                      82             MOV R2, A
+                      83             CLR C
+                      84             SUBB A, R0
+                      85             JNZ save
+                      86                     MOV A, R4
+                      87                     XRL A, R0
+                      88                     JNZ next
+                      89                     
+                      90             MOV A, R3
+                      91                     MOV DPH, #0x80
+                      92             MOV DPL, A
+                      93             MOVX A, @DPTR
+                      94             LCDcharWR
+                      95                     DEC R1
+                      96                     MOV R4, #0xFF
+                      97                     
+                      98                     JMP next
+                      99     save:   
+                     100                     MOV A, R2
+                     101                     MOV R3, A
+                     102                     MOV A, R0
+                     103                     MOV R4, A
+                     104     next:   
+                     105             ENDM
+                     106     
+0100 758380          107     START:  MOV DPH, #0x80
+                     108     
+0103 7800            109             MOV R0, #0x00
+0105 E8              110     reset:  MOV A, R0
+                     111             kcStor A, #0x00
+010B D8F8            115             DJNZ R0, reset
+                     116             
+                     117             kcStor #0x77, #0x31
+                     121             kcStor #0x7B, #0x32
+                     125             kcStor #0x7D, #0x33
+                     129             kcStor #0x7E, #0x41
+                     133             kcStor #0xB7, #0x34
+                     137             kcStor #0xBB, #0x35
+                     141             kcStor #0xBD, #0x36
+                     145             kcStor #0xBE, #0x42
+                     149             kcStor #0xD7, #0x37
+                     153             kcStor #0xDB, #0x38
+                     157             kcStor #0xDD, #0x39
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     3
+
+                     161             kcStor #0xDE, #0x43
+                     165             kcStor #0xE7, #0x45
+                     169             kcStor #0xEB, #0x30
+                     173             kcStor #0xED, #0x46
+                     177             kcStor #0xEE, #0x44
+                     181                     
+                     182                     init_LCD
+                     183+1                   LCDcntrlWR #0x38
+                     192+1                   LCDcntrlWR #0x01
+                     201+1                   LCDcntrlWR #0x0E
+0194 7CFF            210                     MOV R4, #0xFF
+0196 4162            211                     JMP line1
+                     212             
+0198 787F            213     scan:   MOV R0, #0x7F   ; Row 1
+                     214             RDrow
+                     234+1           LCDcharWR
+01C8 78BF            254             MOV R0, #0xBF   ; Row 2
+                     255             RDrow
+                     275+1           LCDcharWR
+01F8 78DF            295             MOV R0, #0xDF   ; Row 3
+                     296             RDrow
+                     316+1           LCDcharWR
+0228 78EF            336             MOV R0, #0xEF   ; Row 4
+                     337             RDrow
+                     357+1           LCDcharWR
+0258 E9              377                     MOV A, R1
+0259 6007            378                     JZ line1
+025B C3              379                     CLR C
+025C 9410            380                     SUBB A, #0x10
+025E 6020            381                     JZ line2
+0260 802B            382                     JMP endline
+                     383                     
+0262                 384     line1:  
+                     385                     LCDcntrlWR #0x01
+                     394                     LCDcntrlWR #0x80
+027C 7920            403                     MOV R1, #0x20
+027E 800D            404                     JMP endline
+0280                 405     line2:  
+                     406                     LCDcntrlWR #0xC0
+                     415                     
+028D                 416     endline:
+028D 2198            417                     JMP scan
+                     418             
+                     419     
+028F 00              420                     NOP
+0290 00              421                     NOP
+0291 00              422                     NOP
+0292 80FE            423                     JMP $
+                     424     END START
+A51 MACRO ASSEMBLER  LAB05_KBTYPE                                                         05/19/2017 16:02:04 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+??0000 . . . . . .  C ADDR   016DH   A   
+??0001 . . . . . .  C ADDR   017AH   A   
+??0002 . . . . . .  C ADDR   0187H   A   
+??0003 . . . . . .  C ADDR   01C4H   A   
+??0004 . . . . . .  C ADDR   01C8H   A   
+??0005 . . . . . .  C ADDR   01B2H   A   
+??0006 . . . . . .  C ADDR   01B9H   A   
+??0007 . . . . . .  C ADDR   01F4H   A   
+??0008 . . . . . .  C ADDR   01F8H   A   
+??0009 . . . . . .  C ADDR   01E2H   A   
+??000A . . . . . .  C ADDR   01E9H   A   
+??000B . . . . . .  C ADDR   0224H   A   
+??000C . . . . . .  C ADDR   0228H   A   
+??000D . . . . . .  C ADDR   0212H   A   
+??000E . . . . . .  C ADDR   0219H   A   
+??000F . . . . . .  C ADDR   0254H   A   
+??0010 . . . . . .  C ADDR   0258H   A   
+??0011 . . . . . .  C ADDR   0242H   A   
+??0012 . . . . . .  C ADDR   0249H   A   
+??0013 . . . . . .  C ADDR   0262H   A   
+??0014 . . . . . .  C ADDR   026FH   A   
+??0015 . . . . . .  C ADDR   0280H   A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+ENDLINE. . . . . .  C ADDR   028DH   A   
+LCDCONTROL . . . .  N NUMB   FF2CH   A   
+LCDDATARD. . . . .  N NUMB   FF2FH   A   
+LCDDATAWR. . . . .  N NUMB   FF2DH   A   
+LCDSTATUS. . . . .  N NUMB   FF2EH   A   
+LINE1. . . . . . .  C ADDR   0262H   A   
+LINE2. . . . . . .  C ADDR   0280H   A   
+P5 . . . . . . . .  N NUMB   00F8H   A   
+P7 . . . . . . . .  N NUMB   00DBH   A   
+RESET. . . . . . .  C ADDR   0105H   A   
+SCAN . . . . . . .  C ADDR   0198H   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

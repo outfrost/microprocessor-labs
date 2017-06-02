@@ -1,3 +1,4 @@
-"LAB04_LCD.obj" 
+"LAB05_LCDM.obj",
+"LAB05_KBTYPE.obj" 
 TO "PTMlab_ptP14" 
 RAMSIZE(256) 

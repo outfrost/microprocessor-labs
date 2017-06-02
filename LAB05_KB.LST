@@ -1,0 +1,73 @@
+A51 MACRO ASSEMBLER  LAB05_KB                                                             05/05/2017 15:12:10 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00d
+OBJECT MODULE PLACED IN LAB05_KB.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LAB05_KB.A51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 020100            1                     LJMP START
+                       2     
+  00F8                 3                     P5  EQU 0xF8
+  00DB                 4             P7  EQU 0xDB
+                       5     
+0100                   6                     ORG 0x0100
+                       7     
+                       8     RDrow MACRO
+                       9             LOCAL next
+                      10     
+                      11             MOV A, R0
+                      12             MOV P5, A
+                      13             
+                      14             MOV A, P7
+                      15             ANL A, R0
+                      16             
+                      17             MOV R2, A
+                      18             CLR C
+                      19             SUBB A, R0
+                      20             JZ next
+                      21             MOV A, R2
+                      22             MOV P1, A
+                      23     next:   
+                      24             ENDM
+                      25     
+0100 787F             26     START:  MOV R0, #0x7F   ; Row 1
+                      27             RDrow
+0110 78BF             42             MOV R0, #0xBF   ; Row 2
+                      43             RDrow
+0120 78DF             58             MOV R0, #0xDF   ; Row 3
+                      59             RDrow
+0130 78EF             74             MOV R0, #0xEF   ; Row 4
+                      75             RDrow
+                      90     
+0140 80BE             91             JMP START
+                      92             
+                      93     
+0142 00               94                     NOP
+0143 00               95                     NOP
+0144 00               96                     NOP
+0145 80FE             97                     JMP $
+                      98     END START
+A51 MACRO ASSEMBLER  LAB05_KB                                                             05/05/2017 15:12:10 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+??0000 . . . . . .  C ADDR   0110H   A   
+??0001 . . . . . .  C ADDR   0120H   A   
+??0002 . . . . . .  C ADDR   0130H   A   
+??0003 . . . . . .  C ADDR   0140H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P5 . . . . . . . .  N NUMB   00F8H   A   
+P7 . . . . . . . .  N NUMB   00DBH   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
